@@ -155,9 +155,18 @@ public class Model extends Observable {
      * given a Tile object t, we get its value with t.value().
      */
     public static boolean maxTileExists(Board b) {
-        // TODO: Fill in this function.
+        int size = b.size();
+        for(int i = 0; i < size; i++){
+            for(int j = 0; j < size; j++){
+                Tile tile = b.tile(i, j);
+                if(tile !=null && tile.value() == MAX_PIECE){
+                    return true;
+                }
+            }
+        }
         return false;
     }
+
 
     /**
      * Returns true if there are any valid moves on the board.
@@ -166,9 +175,48 @@ public class Model extends Observable {
      * 2. There are two adjacent tiles with the same value.
      */
     public static boolean atLeastOneMoveExists(Board b) {
-        // TODO: Fill in this function.
+        int size = b.size();
+
+        /*
+        There is at least one empty space on the board.
+         */
+        for(int i = 0; i < size; i++){
+            for(int j = 0; j < size; j++){
+                if(b.tile(i, j) == null){
+                    return true;
+                }
+            }
+        }
+
+        /*
+        There are two adjacent tiles with the same value.
+         */
+        //column
+        int j = 0;
+        for (int i = 0; i < size - 1; i++) {
+            for (j = 0; j < size; j++) {
+                Tile TileFirCol = b.tile(i, j);
+                Tile TileSecCol = b.tile(i + 1, j);
+                if (TileFirCol.value() == TileSecCol.value()) {
+                    return true;
+                }
+            }
+        }
+
+        //row
+        int i = 0;
+        for (j = 0; j < size - 1; j++) {
+            for (i = 0; i < size; i++) {
+                Tile TileFirRow = b.tile(i, j);
+                Tile TileSecRow = b.tile(i, j + 1);
+                if (TileFirRow.value() == TileSecRow.value()) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
+
 
 
     @Override
