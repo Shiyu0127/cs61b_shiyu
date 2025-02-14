@@ -109,10 +109,88 @@ public class Model extends Observable {
     public boolean tilt(Side side) {
         boolean changed;
         changed = false;
+        int NumberOfNull = 0;
+        int col = 0;
+        int size = board.size(); //我不知道这里的board是不是我的格子，这里没有传b进来我不知道咋整。要是这里错了的话，直接改成4吧
 
-        // TODO: Modify this.board (and perhaps this.score) to account
-        // for the tilt to the Side SIDE. If the board changed, set the
-        // changed local variable to true.
+        //Find the number of Null board to judge the different cases.
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if (board.tile(i, j) == null) {
+                    NumberOfNull += 1;
+                }
+            }
+        }
+
+        //row包裹住的for大循环
+        for(int row = 0; row < size; row++){
+            Tile tile = board.tile(col, row);
+            Tile PlusTile = board.tile(col + 1, row);
+            Tile SubTile = board.tile(col - 1, row);
+            int colValue = ;
+
+            //body
+            switch (NumberOfNull) {
+                case 4:
+                    break;
+                case 3:
+                    //move
+                    for(tile = board.tile(0,row); colValue < size; colValue ++){
+
+                    }
+                    break;
+                case 2:
+                    //null在0,1比2,3
+                    if (board.tile(1, row) == null | board.tile(0, row) == null) {
+                        if (tile.value() ==) {
+
+                        }
+
+                        break;
+                    } //null在2,3比0,1
+                    else if () {
+
+                    }
+                    break;
+                case 1:
+                    if (board.tile(3,row) == null)
+                        //比2,1
+                        break;
+
+                    if (board.tile(2,row) == null)
+                        //比1,0
+                        break;
+
+                    if (board.tile(1,row) == null)
+                        //比3,2
+                        break;
+
+                    if (board.tile(0,row) == null)
+                        //比3,2
+                        break;
+
+
+                case 0:
+                    if (board.tile(3, row) == board.tile(2, row)) {
+                        //operate
+
+                        if (board.tile(1, row) == board.tile(0, row)) {
+                            //operate
+                            break;
+                        }
+                    break;
+                    } else if (board.tile(1, row) == board.tile(2, row)) {
+                        //operate
+                        break;
+                    } else if (board.tile(1, row) == board.tile(0, row)) {
+                        //operate
+                        break;
+                    }
+                    break;
+            }
+        }
+
+
 
         checkGameOver();
         if (changed) {
@@ -148,7 +226,6 @@ public class Model extends Observable {
             return false;
         }
 
-
     /**
      * Returns true if any tile is equal to the maximum valid value.
      * Maximum valid value is given by MAX_PIECE. Note that
@@ -166,7 +243,6 @@ public class Model extends Observable {
         }
         return false;
     }
-
 
     /**
      * Returns true if there are any valid moves on the board.
