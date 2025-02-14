@@ -110,7 +110,6 @@ public class Model extends Observable {
         boolean changed;
         changed = false;
         int NumberOfNull = 0;
-        int col = 0;
         int size = board.size(); //我不知道这里的board是不是我的格子，这里没有传b进来我不知道咋整。要是这里错了的话，直接改成4吧
 
         //Find the number of Null board to judge the different cases.
@@ -123,35 +122,63 @@ public class Model extends Observable {
         }
 
         //row包裹住的for大循环
-        for(int row = 0; row < size; row++){
-            Tile tile = board.tile(col, row);
-            Tile PlusTile = board.tile(col + 1, row);
-            Tile SubTile = board.tile(col - 1, row);
-            int colValue = ;
+        for(int col = 0; col < size; col++){
+//Tile PlusTile = board.tile(col + 1, row);
+//Tile SubTile = board.tile(col - 1, row);
 
-            //body
+            //body 只需考虑row的变化，因为现在讨论的是每一行（column）
             switch (NumberOfNull) {
                 case 4:
                     break;
                 case 3:
                     //move
-                    for(tile = board.tile(0,row); colValue < size; colValue ++){
-
+                    int times = 0;
+                    for(int row = 0; row < size; row ++){
+                        Tile tile = board.tile(col, row);
+                        if (tile != null){
+                            board.move(col, 3, tile);
+                            break;
+                        }
                     }
-                    break;
+
                 case 2:
                     //null在0,1比2,3
-                    if (board.tile(1, row) == null | board.tile(0, row) == null) {
-                        if (tile.value() ==) {
-
+                    if (board.tile(col, 1) == null | board.tile(col, 0) == null) {
+                        Tile tileTwo = board.tile(col,2);
+                        Tile tileThree = board.tile(col,3);
+                        if (tileTwo.value() == tileThree.value()) {
+                            int NewBoardValue = tileTwo.value() + tileThree.value();
+                            Tile tile = board.tile(col,2);
+                            board.move(col,3,tile);
+                            score += NewBoardValue;
                         }
-
                         break;
                     } //null在2,3比0,1
-                    else if () {
-
+                    else if (board.tile(col, 2) == null | board.tile(col, 3) == null) {
+                        Tile tileZero = board.tile(col,0);
+                        Tile tileOne = board.tile(col,1);
+                        if (tileZero.value() == tileOne.value()) {
+                            int NewBoardValue = tileZero.value() + tileOne.value();
+                            Tile TileOne = board.tile(col, 1);
+                            Tile TileZero = board.tile(col, 0);
+                            board.move(col,3,tileOne);
+                            board.move(col,2,tileZero);
+                            score += NewBoardValue;
+                        }
+                        break;
                     }
+                    //两个null不相邻，
+                    if (board.tile(col,3) == null){
+                        Tile TileTwo = board.tile(col,2);
+                        Tile TileZero = board.tile(col,0);
+                        board.move(col,3,TileTwo);
+                        board.move(col,2,TileZero);
+                        break;
+                    }
+                    Tile TileOne = board.tile(col,1);
+                    board.move(col,2,TileOne);
                     break;
+
                 case 1:
                     if (board.tile(3,row) == null)
                         //比2,1
